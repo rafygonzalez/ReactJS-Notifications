@@ -1,12 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import firebase, { messaging } from "./config/firebase_config";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import * as sw_cache_app from "./sw_cache_app";
+import Notifications from "./utils/messaging";
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render(<App />, document.getElementById("root"));
+
+// Registro del Service Worker para guardar la App entera en la cache
+sw_cache_app.register();
+// Registro SW para las notificaiones
+
+const Notification = new Notifications(firebase, messaging);
+Notification.init();
